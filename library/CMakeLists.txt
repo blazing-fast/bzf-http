@@ -10,7 +10,6 @@ add_library(bzf_http_server STATIC
         include/bzf_dynamic_array.h
         src/bzf_bytes.c
         include/bzf_bytes.h
-        include/bzf_error_flag.h
         src/bzf_dynamic_array_impl.h
 )
 

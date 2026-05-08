@@ -4,7 +4,6 @@
 #include "bzf_hashmap.h"
 #include <netinet/in.h>
 
-#include "bzf_error_flag.h"
 
 
 struct bzf_http_route_output {

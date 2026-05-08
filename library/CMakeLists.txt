@@ -11,6 +11,7 @@ add_library(bzf_http_server STATIC
         src/bzf_bytes.c
         include/bzf_bytes.h
         include/bzf_error_flag.h
+        src/bzf_dynamic_array_impl.h
 )
 
 target_include_directories(bzf_http_server PUBLIC

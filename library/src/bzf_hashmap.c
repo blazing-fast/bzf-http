@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 #include "bzf_hashmap_impl.h"
-#include "utilities.h"
 
 enum bzf_hashmap_initialize_result bzf_hashmap_initialize(struct bzf_hashmap **const out) {
     assert(out != NULL);

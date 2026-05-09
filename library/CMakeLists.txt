@@ -2,8 +2,6 @@ add_library(bzf_http_server STATIC
         src/bzf_http_server.c
         src/bzf_hashmap.c
         include/bzf_hashmap.h
-        src/utilities.h
-        src/utilities.c
         src/http.c
         src/http.h
         src/bzf_dynamic_array.c

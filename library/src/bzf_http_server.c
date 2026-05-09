@@ -14,7 +14,6 @@
 
 
 #include "http.h"
-#include "utilities.h"
 #include "bzf_bytes.h"
 
 #define SERVER_PORT 12345

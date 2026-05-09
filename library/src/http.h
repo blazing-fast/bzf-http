@@ -4,7 +4,6 @@
 #define TASKS_HTTP_H
 #include "bzf_bytes.h"
 #include "../include/bzf_hashmap.h"
-#include "utilities.h"
 
 
 struct http_request_line {

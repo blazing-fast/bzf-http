@@ -50,7 +50,7 @@ int main(void) {
     // todo ne pas passer null ptetre
     bzf_http_server_accept_client(&http_server, &client, NULL);
     bzf_http_handle_request(client, http_server.handlers);
-    fflush(stdout);
     bzf_http_server_destroy(&http_server);
+    fflush(stdout);
     return 0;
 }

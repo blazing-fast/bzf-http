@@ -124,7 +124,7 @@ enum bzf_http_add_route_handler_result bzf_http_add_route_handler(struct bzf_htt
 
     *value = route_handler;
     const enum bzf_hashmap_insert_result hashmap_insert_result = bzf_hashmap_insert(
-        &http_server->handlers.configured_routes, route_handler.route, (void*)value);
+        http_server->handlers.configured_routes, route_handler.route, (void*)value);
     if (hashmap_insert_result == BZF_HASHMAP_INSERT_ALLOCATION_ERROR)
     {
         return BZF_HTTP_ADD_ROUTE_HANDLER_MEMORY_ALLOCATION_ERROR;
@@ -134,6 +134,7 @@ enum bzf_http_add_route_handler_result bzf_http_add_route_handler(struct bzf_htt
 
 void bzf_http_free_base(struct bzf_bytes_immutable_view key, void* data)
 {
+    (void)key;
     free(data);
 }
 
@@ -148,7 +149,7 @@ enum bzf_http_send_response_result bzf_http_send_response(const struct bzf_http_
                          MSG_NOSIGNAL);
         if (n > 0)
         {
-            sent_bytes += n;
+            sent_bytes += (size_t)n;
             continue;
         }
         if (n == 0)
@@ -188,7 +189,7 @@ void bzf_http_server_destroy(struct bzf_http_server* http_server)
         close(http_server->file_descriptor);
     }
 
-    bzf_hashmap_free(&http_server->handlers.configured_routes, &bzf_http_free_base);
+    bzf_hashmap_free(http_server->handlers.configured_routes, &bzf_http_free_base);
 }
 
 
@@ -242,7 +243,7 @@ enum bzf_handle_request_result bzf_http_handle_request(const struct bzf_http_cli
     struct bzf_bytes_immutable_view host_key_immutable_view = {(const bzf_byte_t*)"host", 4};
     void* tmp;
     const enum bzf_hashmap_get_result hashmap_get_host_result = bzf_hashmap_get(
-        &http_fetch_and_parse_head_output.headers, host_key_immutable_view, &tmp);
+        http_fetch_and_parse_head_output.headers, host_key_immutable_view, &tmp);
     if (hashmap_get_host_result == BZF_HASHMAP_GET_FOUND)
     {
         printf("found\n");
@@ -260,7 +261,7 @@ enum bzf_handle_request_result bzf_http_handle_request(const struct bzf_http_cli
     const struct bzf_bytes_immutable_view target = bzf_bytes_immutable_view_from_mutable_buffer_and_range(
         headers_raw_buffer, http_fetch_and_parse_head_output.request_line.target);
     const enum bzf_hashmap_get_result hashmap_get_target_result = bzf_hashmap_get(
-        &handlers.configured_routes, target, &tmp);
+        handlers.configured_routes, target, &tmp);
     struct bzf_bytes_mutable_buffer mutable_buffer;
     struct bzf_http_route_output route_output = {&mutable_buffer};
     if (hashmap_get_target_result == BZF_HASHMAP_GET_FOUND)
@@ -273,10 +274,9 @@ enum bzf_handle_request_result bzf_http_handle_request(const struct bzf_http_cli
         handlers.default_handler(&route_output);
     }
     bzf_http_send_response(client, bzf_bytes_immutable_view_from_mutable_buffer(*route_output.response));
-    bzf_hashmap_free(&http_fetch_and_parse_head_output.headers, &bzf_http_free_base);
+    bzf_hashmap_free(http_fetch_and_parse_head_output.headers, &bzf_http_free_base);
 
 
-    cleanup:
-        close(client.file_descriptor);
+    close(client.file_descriptor);
     return BZF_HANDLE_REQUEST_OK;
 }

@@ -3,22 +3,13 @@
 #include <stdint.h>
 #include "bzf_bytes.h"
 
-struct bzf_hashmap_node {
-    struct bzf_bytes_immutable_view key;
-    void* data;
-    struct bzf_hashmap_node* next;
-};
 
-struct bzf_hashmap {
-    uint_fast32_t number_of_elements;
-    uint_fast32_t capacity;
-    struct bzf_hashmap_node** elements;
-};
+struct bzf_hashmap;
 
-enum bzf_hashmap_initialize_result{BZF_HASHMAP_INITIALIZE_OK, BZF_HASHMAP_INITIALIZE_ALLOCATION_ERROR} ;
+enum bzf_hashmap_initialize_result{BZF_HASHMAP_INITIALIZE_OK, BZF_HASHMAP_INITIALIZE_ALLOCATION_ERROR};
 
 
-enum bzf_hashmap_initialize_result bzf_hashmap_initialize(struct bzf_hashmap* hashmap);
+enum bzf_hashmap_initialize_result bzf_hashmap_initialize(struct bzf_hashmap** hashmap);
 
 uint32_t bzf_hashmap_hash_string(struct bzf_bytes_immutable_view key);
 

@@ -3,17 +3,25 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include "bzf_hashmap_impl.h"
 #include "utilities.h"
 
-enum bzf_hashmap_initialize_result bzf_hashmap_initialize(struct bzf_hashmap *const hashmap) {
-    assert(hashmap != NULL);
+enum bzf_hashmap_initialize_result bzf_hashmap_initialize(struct bzf_hashmap **const out) {
+    assert(out != NULL);
+    // remember : opaque API, so you need to malloc here!
+    struct bzf_hashmap *hashmap = malloc(sizeof(struct bzf_hashmap));
+    if (hashmap == NULL){
+        return BZF_HASHMAP_INITIALIZE_ALLOCATION_ERROR;
+    }
     hashmap->capacity = 100;
     hashmap->number_of_elements = 0;
     struct bzf_hashmap_node **elements = calloc(hashmap->capacity, sizeof(struct bzf_hashmap_node *));
     if (elements == NULL) {
+        free(hashmap);
         return BZF_HASHMAP_INITIALIZE_ALLOCATION_ERROR;
     }
     hashmap->elements = elements;
+    *out = hashmap;
     return BZF_HASHMAP_INITIALIZE_OK;
 }
 
@@ -124,4 +132,5 @@ void bzf_hashmap_free(struct bzf_hashmap *const hashmap, void (*free_fn)(struct 
         ++cur_bucket;
     }
     free(hashmap->elements);
+    free(hashmap);
 }

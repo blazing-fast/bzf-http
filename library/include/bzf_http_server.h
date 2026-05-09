@@ -21,7 +21,7 @@ struct bzf_http_route_handler {
 
 struct bzf_http_handlers
 {
-    struct bzf_hashmap configured_routes;
+    struct bzf_hashmap* configured_routes;
     void (*default_handler)(struct bzf_http_route_output*);
 
 };

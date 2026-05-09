@@ -28,7 +28,7 @@ enum http_fetch_and_parse_head_result {
 
 struct http_fetch_and_parse_head_output {
    struct http_request_line request_line;
-   struct bzf_hashmap headers;
+   struct bzf_hashmap* headers;
 };
 
 enum http_fetch_and_parse_head_result http_fetch_and_parse_head(int client_fd, struct bzf_bytes_mutable_buffer* http_head_buffer, struct http_fetch_and_parse_head_output* output);

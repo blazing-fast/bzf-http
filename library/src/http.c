@@ -77,13 +77,13 @@ enum http_fetch_and_parse_head_result http_fetch_and_parse_head(const int client
             return HTTP_FETCH_AND_PARSE_HEAD_UNEXPECTED_ERROR;
         }
 
-        if (http_head_buffer->length + n > http_head_buffer->capacity) {
+        if (http_head_buffer->length + (size_t)n > http_head_buffer->capacity) {
             return HTTP_FETCH_AND_PARSE_HEAD_HEADERS_TOO_LARGE;
         }
 
-        memcpy(http_head_buffer->buffer + http_head_buffer->length, read_buf, n);
-        http_head_buffer->length += n;
-        headers_buffer_view.length += n;
+        memcpy(http_head_buffer->buffer + http_head_buffer->length, read_buf, (size_t)n);
+        http_head_buffer->length += (size_t)n;
+        headers_buffer_view.length += (size_t)n;
 
         static const struct bzf_bytes_immutable_view http_separator = {
             (const bzf_byte_t *) "\r\n",
@@ -128,7 +128,7 @@ enum http_fetch_and_parse_head_result http_fetch_and_parse_head(const int client
 
                 bzf_bytes_lower(&key_mutable_view);
 
-                bzf_hashmap_insert(&output->headers,
+                bzf_hashmap_insert(output->headers,
                                bzf_bytes_immutable_view_from_mutable_view(key_mutable_view), value_immutable_view);
             }
         }

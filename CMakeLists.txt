@@ -22,5 +22,8 @@ endif()
 
 
 # --- Add subdirectories ---
-add_subdirectory(library)
+add_subdirectory(libs/bytes)
+add_subdirectory(libs/hashmap)
+add_subdirectory(libs/dynamic_array)
+add_subdirectory(libs/http_server)
 add_subdirectory(launcher)

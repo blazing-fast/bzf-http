@@ -1,5 +1,10 @@
 add_library(bzf_hashmap STATIC
-    src/bzf_hashmap.c
+    src/bzf_hashmap_initialize.c
+    src/bzf_hashmap_hash_string.c
+    src/bzf_hashmap_insert.c
+    src/bzf_hashmap_get.c
+    src/bzf_hashmap_remove.c
+    src/bzf_hashmap_free.c
     include/bzf_hashmap.h
     src/bzf_hashmap_impl.h
 )

@@ -1,4 +1,7 @@
-add_executable(launcher src/main.c
+add_executable(launcher
+    src/main.c
+    src/coucou_endpoint.c
+    src/root_endpoint.c
 )
 
 # Link the library

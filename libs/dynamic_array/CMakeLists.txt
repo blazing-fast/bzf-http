@@ -1,5 +1,11 @@
 add_library(bzf_dynamic_array STATIC
-    src/bzf_dynamic_array.c
+    src/bzf_dynamic_array_initialize.c
+    src/bzf_dynamic_array_get_ptr.c
+    src/bzf_dynamic_array_get.c
+    src/bzf_dynamic_array_set.c
+    src/bzf_dynamic_array_reserve.c
+    src/bzf_dynamic_array_push_back.c
+    src/bzf_dynamic_array_get_back.c
     include/bzf_dynamic_array.h
     src/bzf_dynamic_array_impl.h
 )

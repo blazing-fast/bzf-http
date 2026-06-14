@@ -47,7 +47,7 @@ enum bzf_http_add_route_handler_result {
     BZF_HTTP_ADD_ROUTE_HANDLER_OK,
     BZF_HTTP_ADD_ROUTE_HANDLER_MEMORY_ALLOCATION_ERROR,
 };
-enum bzf_http_add_route_handler_result bzf_http_add_route_handler(struct bzf_http_server* http_server,struct bzf_http_route_handler route_handler);
+enum bzf_http_add_route_handler_result bzf_http_add_route_handler(const struct bzf_http_server* http_server,struct bzf_http_route_handler route_handler);
 
 enum bzf_http_server_accept_client_result {
     BZF_HTTP_SERVER_ACCEPT_CLIENT_OK,

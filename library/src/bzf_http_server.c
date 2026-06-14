@@ -36,7 +36,7 @@ void defaultHandler(struct bzf_http_route_output* output) {
     "Connection: close\r\n"
     "\r\n"
     "Not found";
-    struct bzf_bytes_mutable_buffer mutable_buffer ={(bzf_byte_t*)response, sizeof(response)-1, sizeof(response)-1 };
+    const struct bzf_bytes_mutable_buffer mutable_buffer ={(bzf_byte_t*)response, sizeof(response)-1, sizeof(response)-1 };
     *output->response = mutable_buffer;
 }
 
@@ -110,7 +110,7 @@ enum bzf_http_server_accept_client_result bzf_http_server_accept_client(struct b
     return BZF_HTTP_SERVER_ACCEPT_CLIENT_OK;
 }
 
-enum bzf_http_add_route_handler_result bzf_http_add_route_handler(struct bzf_http_server* http_server,
+enum bzf_http_add_route_handler_result bzf_http_add_route_handler(const struct bzf_http_server* http_server,
                                                                const struct bzf_http_route_handler route_handler)
 {
     assert(http_server != NULL);

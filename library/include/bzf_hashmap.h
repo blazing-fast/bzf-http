@@ -18,12 +18,12 @@ enum bzf_hashmap_insert_result bzf_hashmap_insert(struct bzf_hashmap* hashmap, s
 
 
 enum bzf_hashmap_get_result{BZF_HASHMAP_GET_FOUND, BZF_HASHMAP_GET_NOT_FOUND};
-enum bzf_hashmap_get_result bzf_hashmap_get(const struct bzf_hashmap *const hashmap, const struct bzf_bytes_immutable_view key, void** data);
+enum bzf_hashmap_get_result bzf_hashmap_get(const struct bzf_hashmap *hashmap, struct bzf_bytes_immutable_view key, void** data);
 
 
 enum bzf_hashmap_remove_result{BZF_HASHMAP_REMOVE_OK, BZF_HASHMAP_REMOVE_NOT_FOUND};
 enum bzf_hashmap_remove_result bzf_hashmap_remove(const struct bzf_hashmap* hashmap, struct bzf_bytes_immutable_view key, void** data);
 
-void bzf_hashmap_free(struct bzf_hashmap *const hashmap, void (*free_fn)(struct bzf_bytes_immutable_view key, void *val));
+void bzf_hashmap_free(struct bzf_hashmap *hashmap, void (*free_fn)(struct bzf_bytes_immutable_view key, void *val));
 
 #endif //TASKS_HASHMAP_H

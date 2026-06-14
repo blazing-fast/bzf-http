@@ -2,11 +2,13 @@
 #include <assert.h>
 #include <stdlib.h>
 
+#include "bzf_os.h"
+
 enum bzf_http_add_route_handler_result bzf_http_add_route_handler(const struct bzf_http_server* http_server,
-                                                               const struct bzf_http_route_handler route_handler)
+                                                                  const struct bzf_http_route_handler route_handler)
 {
     assert(http_server != NULL);
-    struct bzf_http_route_handler* value = malloc(sizeof(struct bzf_http_route_handler));
+    struct bzf_http_route_handler* value = bzf_os_malloc(sizeof(struct bzf_http_route_handler));
     if (value == NULL)
     {
         return BZF_HTTP_ADD_ROUTE_HANDLER_MEMORY_ALLOCATION_ERROR;

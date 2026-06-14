@@ -52,6 +52,7 @@ if(BUILD_TESTS)
 endif()
 
 # --- Add subdirectories ---
+add_subdirectory(libs/os)
 add_subdirectory(libs/bytes)
 add_subdirectory(libs/hashmap)
 add_subdirectory(libs/dynamic_array)

@@ -2,10 +2,11 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "bzf_hashmap_impl.h"
+#include "bzf_os.h"
 
 enum bzf_hashmap_initialize_result bzf_hashmap_initialize(struct bzf_hashmap **const out) {
     assert(out != NULL);
-    struct bzf_hashmap *hashmap = malloc(sizeof(struct bzf_hashmap));
+    struct bzf_hashmap *hashmap = bzf_os_malloc(sizeof(struct bzf_hashmap));
     if (hashmap == NULL){
         return BZF_HASHMAP_INITIALIZE_ALLOCATION_ERROR;
     }

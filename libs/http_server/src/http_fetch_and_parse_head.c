@@ -7,10 +7,11 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include "bzf_bytes.h"
+#include "bzf_os.h"
 
 enum http_fetch_and_parse_head_result http_fetch_and_parse_head(const int client_fd,
-                                                             struct bzf_bytes_mutable_buffer *http_head_buffer,
-                                                             struct http_fetch_and_parse_head_output *output) {
+                                                                struct bzf_bytes_mutable_buffer *http_head_buffer,
+                                                                struct http_fetch_and_parse_head_output *output) {
     assert(http_head_buffer != NULL);
     assert(output != NULL);
 
@@ -75,7 +76,7 @@ enum http_fetch_and_parse_head_result http_fetch_and_parse_head(const int client
                 if (number_of_elements != 2) {
                     return HTTP_FETCH_AND_PARSE_HEAD_INVALID_HEADER;
                 }
-                struct bzf_bytes_immutable_view *value_immutable_view = malloc(sizeof(struct bzf_bytes_immutable_view));
+                struct bzf_bytes_immutable_view *value_immutable_view = bzf_os_malloc(sizeof(struct bzf_bytes_immutable_view));
                 if (value_immutable_view == NULL) {
                     return HTTP_FETCH_AND_PARSE_HEAD_MEMORY_ALLOCATION_FAILED;
                 }

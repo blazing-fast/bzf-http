@@ -13,7 +13,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Optional: install libraries for HTTP / async
-RUN apt-get update && apt-get install -y libpthread-stubs0-dev
+RUN apt-get update && apt-get install -y \
+    libpthread-stubs0-dev \
+    libcmocka-dev
 
 # Set working directory
 WORKDIR /project

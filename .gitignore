@@ -1,3 +1,13 @@
-cmake-build-debug
-cmake-build-docker-debug
-.idea
+# CLion
+.idea/
+
+# CMake build directories (all of them)
+cmake-build-*/
+build/
+build-*/
+cmake-build-*/
+out/
+out-*/
+
+# macOS
+.DS_Store

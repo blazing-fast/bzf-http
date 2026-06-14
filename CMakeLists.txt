@@ -20,6 +20,36 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     endif()
 endif()
 
+# --- Testing ---
+option(BUILD_TESTS "Build unit tests" ON)
+
+if(BUILD_TESTS)
+    enable_testing()
+
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+    include(CMockaTest)
+
+    # Prefer system cmocka (e.g. from Docker's libcmocka-dev),
+    # fallback to FetchContent on systems without it (e.g. macOS).
+    find_package(cmocka QUIET)
+    if(NOT cmocka_FOUND)
+        include(FetchContent)
+        FetchContent_Declare(
+            cmocka
+            GIT_REPOSITORY https://gitlab.com/cmocka/cmocka.git
+            GIT_TAG        cmocka-1.1.7
+            GIT_SHALLOW    TRUE
+        )
+        set(WITH_EXAMPLES OFF CACHE BOOL "" FORCE)
+        set(WITH_UNIT_TESTS OFF CACHE BOOL "" FORCE)
+        FetchContent_MakeAvailable(cmocka)
+
+        # Make cmocka headers findable for test sources
+        include_directories(${cmocka_SOURCE_DIR}/include)
+    endif()
+
+    add_subdirectory(tests)
+endif()
 
 # --- Add subdirectories ---
 add_subdirectory(libs/bytes)

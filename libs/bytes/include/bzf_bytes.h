@@ -65,6 +65,8 @@ static inline struct bzf_bytes_immutable_view bytes_buffer_to_byte_view(const st
 
 bool bzf_bytes_equals(struct bzf_bytes_immutable_view first, struct bzf_bytes_immutable_view second);
 
+struct bzf_bytes_immutable_view bzf_bytes_add_offset(const struct bzf_bytes_immutable_view bytes, const size_t offset);
+
 bool bzf_bytes_tokenize(
     struct bzf_bytes_immutable_view bytes,
     struct bzf_bytes_immutable_view delimiter,

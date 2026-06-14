@@ -1,0 +1,1 @@
+bzf_add_cmocka_test(test_dynamic_array test_dynamic_array.c bzf_dynamic_array)

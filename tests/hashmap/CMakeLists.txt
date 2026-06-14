@@ -1,0 +1,1 @@
+bzf_add_cmocka_test(test_hashmap test_hashmap.c bzf_hashmap)

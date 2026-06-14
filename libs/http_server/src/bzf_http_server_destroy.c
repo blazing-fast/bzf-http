@@ -1,4 +1,4 @@
-#include "bzf_http_server.h"
+#include "private.h"
 #include <assert.h>
 #include <unistd.h>
 

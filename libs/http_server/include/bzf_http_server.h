@@ -59,15 +59,6 @@ enum bzf_http_server_accept_client_result bzf_http_server_accept_client(struct b
 
 void bzf_http_server_destroy(struct bzf_http_server* http_server);
 
-// todo : remove this from public header
-void bzf_http_free_base(struct bzf_bytes_immutable_view key, void* data);
-
-// todo: remove this from public header
-void defaultHandler(struct bzf_http_route_output* output);
-
-// todo: remove this from public header
-void printf_bytes_t(const struct bzf_bytes_immutable_view bytes);
-
 enum bzf_http_send_response_result{BZF_HTTP_SEND_RESPONSE_OK, BZF_HTTP_SEND_RESPONSE_CLOSED, BZF_HTTP_SEND_RESPONSE_ERROR};
 enum bzf_http_send_response_result bzf_http_send_response(const struct bzf_http_client bzf_http_client, const struct bzf_bytes_immutable_view to_send);
 

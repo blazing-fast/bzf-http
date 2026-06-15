@@ -4,6 +4,7 @@ add_library(bzf_os STATIC
         src/bzf_os_free.c
         src/bzf_accept.c
         src/bzf_setsockopt.c
+        src/bzf_close.c
 )
 
 target_include_directories(bzf_os PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

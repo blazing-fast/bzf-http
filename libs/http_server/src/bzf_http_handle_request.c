@@ -1,6 +1,7 @@
 #include "private.h"
 #include "http.h"
 #include <assert.h>
+#include <bzf_os.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,6 +69,6 @@ enum bzf_handle_request_result bzf_http_handle_request(const struct bzf_http_cli
     bzf_http_send_response(client, bzf_bytes_immutable_view_from_mutable_buffer(*route_output.response));
     bzf_hashmap_free(http_fetch_and_parse_head_output.headers, &bzf_http_free_base);
 
-    close(client.file_descriptor);
+    bzf_close(client.file_descriptor);
     return BZF_HANDLE_REQUEST_OK;
 }

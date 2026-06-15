@@ -6,6 +6,8 @@
 #include <string.h>
 #include <sys/time.h>
 
+#include "bzf_os.h"
+
 enum bzf_http_server_accept_client_result bzf_http_server_accept_client(struct bzf_http_server* http_server, struct bzf_http_client* client,
                                                                         struct sockaddr_in* client_addr)
 {
@@ -14,7 +16,7 @@ enum bzf_http_server_accept_client_result bzf_http_server_accept_client(struct b
     int *client_fd = &client->file_descriptor;
     *client_fd = -1;
     socklen_t addr_len = client_addr == NULL ? 0 : sizeof(struct sockaddr_in);
-    const int accept_client_fd = accept(http_server->file_descriptor, (struct sockaddr*)client_addr, &addr_len);
+    const int accept_client_fd = bzf_accept(http_server->file_descriptor, (struct sockaddr*)client_addr, &addr_len);
     if (accept_client_fd < 0)
     {
         return BZF_HTTP_SERVER_ACCEPT_ERROR_WHEN_ACCEPTING;

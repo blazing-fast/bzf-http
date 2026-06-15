@@ -24,7 +24,7 @@ enum bzf_http_server_accept_client_result bzf_http_server_accept_client(struct b
     *client_fd = accept_client_fd;
 
     const struct timeval tv = {5, 0};
-    if (setsockopt(*client_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)))
+    if (bzf_setsockopt(*client_fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)))
     {
         fprintf(stderr, "setsockopt failed ! You PROBABLY have a logic error in your code ; %s", strerror(errno));
         return BZF_HTTP_SERVER_ACCEPT_CLIENT_ERROR_WHEN_SETSOCKETOPT;

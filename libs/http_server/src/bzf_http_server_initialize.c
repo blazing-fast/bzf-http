@@ -7,6 +7,8 @@
 #include <string.h>
 #include <sys/socket.h>
 
+#include "bzf_os.h"
+
 #define SERVER_PORT 12345
 
 enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_http_server* out)
@@ -22,7 +24,7 @@ enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_htt
     }
 
     const int reuseaddr_opt = 1;
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuseaddr_opt, sizeof(reuseaddr_opt));
+    bzf_setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &reuseaddr_opt, sizeof(reuseaddr_opt));
 
     struct sockaddr_in server_addr = {0};
     server_addr.sin_family = AF_INET;

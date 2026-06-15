@@ -1,5 +1,6 @@
 #include "../include/bzf_hashmap.h"
 #include <assert.h>
+#include <bzf_os.h>
 #include <stdlib.h>
 #include "bzf_hashmap_impl.h"
 
@@ -20,7 +21,7 @@ enum bzf_hashmap_remove_result bzf_hashmap_remove(const struct bzf_hashmap *cons
             } else {
                 previous_node->next = current_node->next;
             }
-            free(current_node);
+            bzf_os_free(current_node);
             return BZF_HASHMAP_REMOVE_OK;
         }
         previous_node = current_node;

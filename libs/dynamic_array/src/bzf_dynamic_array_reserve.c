@@ -17,7 +17,7 @@ enum bzf_dynamic_array_reserve_result bzf_dynamic_array_reserve(struct bzf_dynam
 
     memcpy(new_buffer, dynamic_array->buffer, dynamic_array->capacity * dynamic_array->element_size);
 
-    free(dynamic_array->buffer);
+    bzf_os_free(dynamic_array->buffer);
 
     dynamic_array->buffer = new_buffer;
     dynamic_array->capacity = new_min_capacity;

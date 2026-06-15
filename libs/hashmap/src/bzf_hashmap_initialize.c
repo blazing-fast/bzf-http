@@ -14,7 +14,7 @@ enum bzf_hashmap_initialize_result bzf_hashmap_initialize(struct bzf_hashmap **c
     hashmap->number_of_elements = 0;
     struct bzf_hashmap_node **elements = calloc(hashmap->capacity, sizeof(struct bzf_hashmap_node *));
     if (elements == NULL) {
-        free(hashmap);
+        bzf_os_free(hashmap);
         return BZF_HASHMAP_INITIALIZE_ALLOCATION_ERROR;
     }
     hashmap->elements = elements;

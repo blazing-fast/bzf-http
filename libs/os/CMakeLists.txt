@@ -1,6 +1,7 @@
 add_library(bzf_os STATIC
         include/bzf_os.h
     src/bzf_os_malloc.c
+        src/bzf_os_free.c
 )
 
 target_include_directories(bzf_os PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

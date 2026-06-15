@@ -15,7 +15,7 @@ enum bzf_dynamic_array_initialize_result bzf_dynamic_array_initialize(const size
     dynamic_array->capacity = initial_capacity;
     dynamic_array->buffer = bzf_os_malloc(element_size * initial_capacity);
     if (dynamic_array->buffer == NULL) {
-        free(dynamic_array);
+        bzf_os_free(dynamic_array);
         return BZF_DYNAMIC_ARRAY_INITIALIZE_MEMORY_ALLOCATION_ERROR;
     }
     *out = dynamic_array;

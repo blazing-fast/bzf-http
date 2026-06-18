@@ -13,4 +13,5 @@ add_library(bzf_dynamic_array STATIC
 target_include_directories(bzf_dynamic_array PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(bzf_dynamic_array PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(bzf_dynamic_array PUBLIC bzf_bytes bzf_os)
+# Only depends on headers, not on the OS implementation.
+target_link_libraries(bzf_dynamic_array PUBLIC bzf_bytes bzf_os_headers)

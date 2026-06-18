@@ -11,11 +11,14 @@ add_library(bzf_http_server STATIC
     src/bzf_http_handle_request.c
     src/parse_http_request_line.c
     src/http_fetch_and_parse_head.c
-        include/bzf_http_server.h
+    include/bzf_http_server.h
     src/http.h
 )
 
 target_include_directories(bzf_http_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(bzf_http_server PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(bzf_http_server PUBLIC bzf_bytes bzf_os bzf_dynamic_array bzf_hashmap)
+# No bzf_os link — OS symbols remain unresolved until final binary links real or mock sources.
+target_link_libraries(bzf_http_server PUBLIC bzf_bytes bzf_os_headers bzf_dynamic_array bzf_hashmap)
+
+

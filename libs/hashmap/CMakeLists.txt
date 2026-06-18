@@ -12,4 +12,5 @@ add_library(bzf_hashmap STATIC
 target_include_directories(bzf_hashmap PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(bzf_hashmap PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(bzf_hashmap PUBLIC bzf_bytes bzf_os)
+# Only depends on headers, not on the OS implementation.
+target_link_libraries(bzf_hashmap PUBLIC bzf_bytes bzf_os_headers)

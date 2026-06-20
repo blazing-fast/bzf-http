@@ -18,7 +18,5 @@ add_library(bzf_http_server STATIC
 target_include_directories(bzf_http_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(bzf_http_server PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-# No bzf_os link — OS symbols remain unresolved until final binary links real or mock sources.
-target_link_libraries(bzf_http_server PUBLIC bzf_bytes bzf_os_headers bzf_dynamic_array bzf_hashmap)
-
-
+# Links the real OS wrapper so symbols are resolved at library build time.
+target_link_libraries(bzf_http_server PUBLIC bzf_bytes bzf_os bzf_dynamic_array bzf_hashmap)

@@ -50,8 +50,7 @@ if(BUILD_TESTS)
 endif()
 
 # --- Add subdirectories ---
-# libs/os must come first — it defines BZF_OS_REAL_SOURCES / BZF_OS_MOCK_SOURCES
-# and the bzf_os_headers interface that every other target depends on.
+# libs/os must come first — it defines bzf_os and bzf_os_mock targets.
 add_subdirectory(libs/os)
 add_subdirectory(libs/bytes)
 add_subdirectory(libs/hashmap)

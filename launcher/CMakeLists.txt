@@ -4,6 +4,5 @@ add_executable(launcher
     src/root_endpoint.c
 )
 
-# Link the library + real OS sources for production.
-target_sources(launcher PRIVATE ${BZF_OS_REAL_SOURCES})
+# OS symbols are now brought in transitively by bzf_http_server -> bzf_os.
 target_link_libraries(launcher PRIVATE bzf_http_server)

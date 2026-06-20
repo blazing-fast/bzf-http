@@ -56,10 +56,8 @@ enum bzf_http_server_accept_client_result {
 };
 enum bzf_http_server_accept_client_result bzf_http_server_accept_client(struct bzf_http_server* http_server, struct bzf_http_client* client, struct sockaddr_in* client_addr);
 
-void hello(struct bzf_http_server* http_server, int client_fd);
 
 void bzf_http_server_destroy(struct bzf_http_server* http_server);
-
 
 enum bzf_http_send_response_result{BZF_HTTP_SEND_RESPONSE_OK, BZF_HTTP_SEND_RESPONSE_CLOSED, BZF_HTTP_SEND_RESPONSE_ERROR};
 enum bzf_http_send_response_result bzf_http_send_response(const struct bzf_http_client bzf_http_client, const struct bzf_bytes_immutable_view to_send);

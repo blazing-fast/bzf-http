@@ -10,8 +10,8 @@ static void test_bytes_equals_identical(void **state) {
     bzf_byte_t buf1[] = {1, 2, 3, 4};
     bzf_byte_t buf2[] = {1, 2, 3, 4};
 
-    struct bzf_bytes_immutable_view v1 = {buf1, 4};
-    struct bzf_bytes_immutable_view v2 = {buf2, 4};
+    const struct bzf_bytes_immutable_view v1 = {buf1, 4};
+    const struct bzf_bytes_immutable_view v2 = {buf2, 4};
 
     assert_true(bzf_bytes_equals(v1, v2));
 }
@@ -21,8 +21,8 @@ static void test_bytes_equals_different_content(void **state) {
     bzf_byte_t buf1[] = {1, 2, 3, 4};
     bzf_byte_t buf2[] = {1, 2, 3, 5};
 
-    struct bzf_bytes_immutable_view v1 = {buf1, 4};
-    struct bzf_bytes_immutable_view v2 = {buf2, 4};
+    const struct bzf_bytes_immutable_view v1 = {buf1, 4};
+    const struct bzf_bytes_immutable_view v2 = {buf2, 4};
 
     assert_false(bzf_bytes_equals(v1, v2));
 }
@@ -32,8 +32,8 @@ static void test_bytes_equals_different_length(void **state) {
     bzf_byte_t buf1[] = {1, 2, 3};
     bzf_byte_t buf2[] = {1, 2, 3, 4};
 
-    struct bzf_bytes_immutable_view v1 = {buf1, 3};
-    struct bzf_bytes_immutable_view v2 = {buf2, 4};
+    const struct bzf_bytes_immutable_view v1 = {buf1, 3};
+    const struct bzf_bytes_immutable_view v2 = {buf2, 4};
 
     assert_false(bzf_bytes_equals(v1, v2));
 }
@@ -42,13 +42,15 @@ static void test_bytes_add_offset(void **state) {
     (void)state;
     bzf_byte_t buf[] = {10, 20, 30, 40, 50};
 
-    struct bzf_bytes_immutable_view v = {buf, 5};
-    struct bzf_bytes_immutable_view shifted = bzf_bytes_add_offset(v, 2);
+    const struct bzf_bytes_immutable_view v = {buf, 5};
+    const uint8_t offset_add = 2;
+    const struct bzf_bytes_immutable_view shifted = bzf_bytes_add_offset(v, offset_add);
 
-    assert_int_equal(shifted.length, 3);
-    assert_int_equal(shifted.buffer[0], 30);
-    assert_int_equal(shifted.buffer[1], 40);
-    assert_int_equal(shifted.buffer[2], 50);
+    assert_int_equal(shifted.length, sizeof(buf) / sizeof(buf[0]) - offset_add );
+    assert_ptr_equal(shifted.buffer, buf + offset_add);
+    assert_ptr_equal(shifted.buffer + 1, buf + offset_add + 1);
+    assert_ptr_equal(shifted.buffer + 2, buf + offset_add + 2);
+
 }
 
 static void test_bytes_tokenize_basic(void **state) {
@@ -56,8 +58,8 @@ static void test_bytes_tokenize_basic(void **state) {
     bzf_byte_t buf[] = "hello=world=test";
     bzf_byte_t delim[] = "=";
 
-    struct bzf_bytes_immutable_view v = {buf, sizeof(buf) - 1};
-    struct bzf_bytes_immutable_view d = {delim, 1};
+    const struct bzf_bytes_immutable_view v = {buf, sizeof(buf) - 1};
+    const struct bzf_bytes_immutable_view d = {delim, 1};
 
     size_t offset = 0;
     struct bzf_bytes_range range;
@@ -73,8 +75,8 @@ static void test_bytes_tokenize_multiple(void **state) {
     bzf_byte_t buf[] = "a,b,c";
     bzf_byte_t delim[] = ",";
 
-    struct bzf_bytes_immutable_view v = {buf, 5};
-    struct bzf_bytes_immutable_view d = {delim, 1};
+    const struct bzf_bytes_immutable_view v = {buf, sizeof(buf) - 1};
+    const struct bzf_bytes_immutable_view d = {delim, sizeof(delim) - 1};
 
     size_t offset = 0;
     struct bzf_bytes_range range;
@@ -93,8 +95,8 @@ static void test_bytes_split(void **state) {
     bzf_byte_t buf[] = "foo,bar,baz";
     bzf_byte_t delim[] = ",";
 
-    struct bzf_bytes_immutable_view v = {buf, 11};
-    struct bzf_bytes_immutable_view d = {delim, 1};
+    const struct bzf_bytes_immutable_view v = {buf, 11};
+    const struct bzf_bytes_immutable_view d = {delim, 1};
 
     struct bzf_bytes_range ranges[3];
     size_t count = bzf_bytes_split(v, d, ranges, 3);
@@ -108,13 +110,32 @@ static void test_bytes_split(void **state) {
     assert_int_equal(ranges[2].length, 3);
 }
 
+static void test_bytes_split_with_remainder_after_max_token(void** state)
+{
+    (void)state;
+    bzf_byte_t buf[] = "foo,bar,baz";
+    bzf_byte_t delim[] = ",";
+
+    const struct bzf_bytes_immutable_view v = {buf, 11};
+    const struct bzf_bytes_immutable_view d = {delim, 1};
+
+    struct bzf_bytes_range ranges[2];
+    size_t count = bzf_bytes_split(v, d, ranges, 2);
+
+    assert_int_equal(count, 2);
+    assert_int_equal(ranges[0].offset, 0);
+    assert_int_equal(ranges[0].length, 3);
+    assert_int_equal(ranges[1].offset, 4);
+    assert_int_equal(ranges[1].length, 7);
+}
+
 static void test_bytes_tokenize_with_remainder(void **state) {
     (void)state;
     bzf_byte_t buf[] = "hello,world";
     bzf_byte_t delim[] = ",";
 
-    struct bzf_bytes_immutable_view v = {buf, 11};
-    struct bzf_bytes_immutable_view d = {delim, 1};
+    const struct bzf_bytes_immutable_view v = {buf, 11};
+    const struct bzf_bytes_immutable_view d = {delim, 1};
     struct bzf_bytes_immutable_view token;
 
     size_t offset = 0;
@@ -138,6 +159,7 @@ int main(void) {
         cmocka_unit_test(test_bytes_tokenize_multiple),
         cmocka_unit_test(test_bytes_split),
         cmocka_unit_test(test_bytes_tokenize_with_remainder),
+        cmocka_unit_test(test_bytes_split_with_remainder_after_max_token),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);

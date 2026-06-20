@@ -47,13 +47,19 @@ if(BUILD_TESTS)
         # Make cmocka headers findable for test sources
         include_directories(${cmocka_SOURCE_DIR}/include)
     endif()
-
-    add_subdirectory(tests)
 endif()
 
 # --- Add subdirectories ---
+# libs/os must come first — it defines BZF_OS_REAL_SOURCES / BZF_OS_MOCK_SOURCES
+# and the bzf_os_headers interface that every other target depends on.
+add_subdirectory(libs/os)
 add_subdirectory(libs/bytes)
 add_subdirectory(libs/hashmap)
 add_subdirectory(libs/dynamic_array)
 add_subdirectory(libs/http_server)
+
+if(BUILD_TESTS)
+    add_subdirectory(tests)
+endif()
+
 add_subdirectory(launcher)

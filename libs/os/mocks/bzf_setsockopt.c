@@ -12,7 +12,7 @@ int (*mock_bzf_setsockopt_fn)(int, int, int, const void*, socklen_t) = default_b
 
 void mock_bzf_setsockopt_set(int (*fn)(int, int, int, const void*, socklen_t))
 {
-    mock_bzf_setsockopt_fn = fn;
+    mock_bzf_setsockopt_fn = fn ? fn : default_bzf_setsockopt;
 }
 
 int bzf_setsockopt(int fd, int level, int optname, const void* optval, socklen_t optlen)

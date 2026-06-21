@@ -13,7 +13,7 @@ void* (*mock_bzf_os_malloc_fn)(size_t) = default_bzf_os_malloc;
 
 void mock_bzf_os_malloc_set(void* (*fn)(size_t))
 {
-    mock_bzf_os_malloc_fn = fn;
+    mock_bzf_os_malloc_fn = fn ? fn : default_bzf_os_malloc;
 }
 
 void *bzf_os_malloc(size_t size)

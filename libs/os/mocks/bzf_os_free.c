@@ -13,7 +13,7 @@ void (*mock_bzf_os_free_fn)(void*) = default_bzf_os_free;
 
 void mock_bzf_os_free_set(void (*fn)(void*))
 {
-    mock_bzf_os_free_fn = fn;
+    mock_bzf_os_free_fn = fn ? fn : default_bzf_os_free;
 }
 
 void bzf_os_free(void* ptr)

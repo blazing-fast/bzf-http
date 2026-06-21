@@ -12,7 +12,7 @@ int (*mock_bzf_close_fn)(int) = default_bzf_close;
 
 void mock_bzf_close_set(int (*fn)(int))
 {
-    mock_bzf_close_fn = fn;
+    mock_bzf_close_fn = fn ? fn : default_bzf_close;
 }
 
 int bzf_close(int fd)

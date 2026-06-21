@@ -12,7 +12,7 @@ int (*mock_bzf_listen_fn)(int, int) = default_bzf_listen;
 
 void mock_bzf_listen_set(int (*fn)(int, int))
 {
-    mock_bzf_listen_fn = fn;
+    mock_bzf_listen_fn = fn ? fn : default_bzf_listen;
 }
 
 int bzf_listen(int fd, int backlog)

@@ -12,7 +12,7 @@ int (*mock_bzf_socket_fn)(int, int, int) = default_bzf_socket;
 
 void mock_bzf_socket_set(int (*fn)(int, int, int))
 {
-    mock_bzf_socket_fn = fn;
+    mock_bzf_socket_fn = fn ? fn : default_bzf_socket;
 }
 
 int bzf_socket(int domain, int type, int protocol)

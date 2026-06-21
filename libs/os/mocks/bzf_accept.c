@@ -12,7 +12,7 @@ int (*mock_bzf_accept_fn)(int, struct sockaddr*, socklen_t*) = default_bzf_accep
 
 void mock_bzf_accept_set(int (*fn)(int, struct sockaddr*, socklen_t*))
 {
-    mock_bzf_accept_fn = fn;
+    mock_bzf_accept_fn = fn ? fn : default_bzf_accept;
 }
 
 int bzf_accept(int fd, struct sockaddr* addr, socklen_t* addr_len)

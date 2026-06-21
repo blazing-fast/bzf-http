@@ -16,7 +16,7 @@ enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_htt
     assert(out != NULL);
 
     out->file_descriptor = -1;
-    const int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    const int server_fd = bzf_socket(AF_INET, SOCK_STREAM, 0);
 
     if (server_fd < 0)
     {
@@ -33,13 +33,13 @@ enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_htt
     server_addr.sin_addr.s_addr = INADDR_ANY;
 
     out->file_descriptor = server_fd;
-    if (bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0)
+    if (bzf_bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0)
     {
         fprintf(stderr, "bind failed: %s\n", strerror(errno));
         return BZF_HTTP_SERVER_INITIALIZE_SOCKET_INITIALISATION_ERROR;
     }
 
-    if (listen(server_fd, 1) < 0)
+    if (bzf_listen(server_fd, 1) < 0)
     {
         fprintf(stderr, "listen failed: %s\n", strerror(errno));
         return BZF_HTTP_SERVER_INITIALIZE_SOCKET_INITIALISATION_ERROR;

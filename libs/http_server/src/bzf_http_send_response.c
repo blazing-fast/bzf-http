@@ -1,4 +1,5 @@
 #include "bzf_http_server.h"
+#include "bzf_os.h"
 #include <errno.h>
 #include <unistd.h>
 
@@ -9,7 +10,7 @@ enum bzf_http_send_response_result bzf_http_send_response(const struct bzf_http_
 
     while (sent_bytes < to_send.length)
     {
-        ssize_t n = send(bzf_http_client.file_descriptor, to_send.buffer + sent_bytes, to_send.length - sent_bytes,
+        ssize_t n = bzf_send(bzf_http_client.file_descriptor, to_send.buffer + sent_bytes, to_send.length - sent_bytes,
                          MSG_NOSIGNAL);
         if (n > 0)
         {

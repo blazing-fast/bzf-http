@@ -16,7 +16,7 @@ enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_htt
     assert(out != NULL);
 
     out->file_descriptor = -1;
-    out->handlers.configured_routes = NULL;                                                                                                                                                                                                                                                                                                                                                                                                 LSP
+    out->handlers.configured_routes = NULL;
     out->handlers.default_handler = NULL;
 
     const int server_fd = bzf_socket(AF_INET, SOCK_STREAM, 0);

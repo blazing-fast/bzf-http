@@ -1,1 +1,5 @@
-bzf_add_cmocka_test(test_bytes test_bytes.c bzf_bytes)
+bzf_add_cmocka_test(test_bzf_bytes_equals test_bzf_bytes_equals.c bzf_bytes)
+bzf_add_cmocka_test(test_bzf_bytes_add_offset test_bzf_bytes_add_offset.c bzf_bytes)
+bzf_add_cmocka_test(test_bzf_bytes_tokenize test_bzf_bytes_tokenize.c bzf_bytes)
+bzf_add_cmocka_test(test_bzf_bytes_split test_bzf_bytes_split.c bzf_bytes)
+bzf_add_cmocka_test(test_bzf_bytes_tokenize_with_remainder test_bzf_bytes_tokenize_with_remainder.c bzf_bytes)

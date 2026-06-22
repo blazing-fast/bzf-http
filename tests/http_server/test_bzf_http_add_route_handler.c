@@ -5,34 +5,8 @@
 #include <cmocka.h>
 #include "bzf_http_server.h"
 #include "bzf_hashmap_mocks.h"
-#include "bzf_os_mocks.h"
 
-static void test_http_server_initialize(void **state) {
-    (void)state;
-    struct bzf_http_server server;
-
-    enum bzf_http_server_initialize_result res = bzf_http_server_initialize(&server);
-    assert_int_equal(res, BZF_HTTP_SERVER_INITIALIZE_OK);
-
-    bzf_http_server_destroy(&server);
-}
-
-static int socket_always_return_negative(int domain, int type, int protocol)
-{
-    return -1;
-}
-
-static void test_http_server_fail_if_socket_fails(void **state)
-{
-    (void)state;
-    struct bzf_http_server server;
-    mock_bzf_socket_set(socket_always_return_negative);
-    assert_int_equal(bzf_http_server_initialize(&server), BZF_HTTP_SERVER_INITIALIZE_SOCKET_INITIALISATION_ERROR);
-    mock_bzf_socket_set(NULL);
-    bzf_http_server_destroy(&server);
-}
-
-static void test_http_server_add_route(void **state) {
+static void test_http_add_route_handler_ok(void **state) {
     (void)state;
     struct bzf_http_server server;
     assert_int_equal(bzf_http_server_initialize(&server), BZF_HTTP_SERVER_INITIALIZE_OK);
@@ -62,7 +36,7 @@ static enum bzf_hashmap_insert_result fake_insert_always_fails(
     return BZF_HASHMAP_INSERT_ALLOCATION_ERROR;
 }
 
-static void test_http_server_add_route_hashmap_fails(void **state) {
+static void test_http_add_route_handler_hashmap_fails(void **state) {
     (void)state;
     struct bzf_http_server server;
     assert_int_equal(bzf_http_server_initialize(&server), BZF_HTTP_SERVER_INITIALIZE_OK);
@@ -85,7 +59,7 @@ static void test_http_server_add_route_hashmap_fails(void **state) {
     bzf_http_server_destroy(&server);
 }
 
-static void test_http_server_real_get_next_to_mocked_insert(void **state) {
+static void test_http_add_route_handler_and_real_get(void **state) {
     (void)state;
     struct bzf_http_server server;
     assert_int_equal(bzf_http_server_initialize(&server), BZF_HTTP_SERVER_INITIALIZE_OK);
@@ -111,11 +85,9 @@ static void test_http_server_real_get_next_to_mocked_insert(void **state) {
 
 int main(void) {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test(test_http_server_initialize),
-        cmocka_unit_test(test_http_server_fail_if_socket_fails),
-        cmocka_unit_test(test_http_server_add_route),
-        cmocka_unit_test(test_http_server_add_route_hashmap_fails),
-        cmocka_unit_test(test_http_server_real_get_next_to_mocked_insert),
+        cmocka_unit_test(test_http_add_route_handler_ok),
+        cmocka_unit_test(test_http_add_route_handler_hashmap_fails),
+        cmocka_unit_test(test_http_add_route_handler_and_real_get),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);

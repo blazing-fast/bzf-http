@@ -1,3 +1,4 @@
-bzf_add_cmocka_test(test_http_server test_http_server.c bzf_http_server
+bzf_add_cmocka_test(test_bzf_http_server_initialize test_bzf_http_server_initialize.c bzf_http_server)
+bzf_add_cmocka_test(test_bzf_http_add_route_handler test_bzf_http_add_route_handler.c bzf_http_server
     MOCK_TARGETS bzf_hashmap_mock
 )

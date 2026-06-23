@@ -20,6 +20,7 @@ enum bzf_http_add_route_handler_result bzf_http_add_route_handler(const struct b
         http_server->handlers.configured_routes, route_handler.route, (void*)value);
     if (hashmap_insert_result == BZF_HASHMAP_INSERT_ALLOCATION_ERROR)
     {
+        bzf_os_free(value);
         return BZF_HTTP_ADD_ROUTE_HANDLER_MEMORY_ALLOCATION_ERROR;
     }
     return BZF_HTTP_ADD_ROUTE_HANDLER_OK;

@@ -28,10 +28,13 @@ enum bzf_handle_request_result bzf_http_handle_request(const struct bzf_http_cli
     const enum http_fetch_and_parse_head_result http_fetch_headers_res = http_fetch_and_parse_head(
         client.file_descriptor, &headers_raw_buffer, &http_fetch_and_parse_head_output);
 
+    enum bzf_handle_request_result result = BZF_HANDLE_REQUEST_OK;
+
     if (http_fetch_headers_res != HTTP_FETCH_AND_PARSE_HEAD_OK)
     {
         printf("lala %d\n", http_fetch_headers_res);
-        return http_fetch_and_parse_error_to_request_error(http_fetch_headers_res);
+        result = http_fetch_and_parse_error_to_request_error(http_fetch_headers_res);
+        goto cleanup;
     }
 
     struct bzf_bytes_immutable_view host_key_immutable_view = {(const bzf_byte_t*)"host", 4};
@@ -67,8 +70,10 @@ enum bzf_handle_request_result bzf_http_handle_request(const struct bzf_http_cli
         handlers.default_handler(&route_output);
     }
     bzf_http_send_response(client, bzf_bytes_immutable_view_from_mutable_buffer(*route_output.response));
+
+cleanup:
     bzf_hashmap_free(http_fetch_and_parse_head_output.headers, &bzf_http_free_base);
 
     bzf_close(client.file_descriptor);
-    return BZF_HANDLE_REQUEST_OK;
+    return result;
 }

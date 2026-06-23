@@ -1,4 +1,5 @@
 #include "bzf_http_server.h"
+#include "bzf_http_server_impl.h"
 #include <assert.h>
 #include <errno.h>
 #include <stdio.h>

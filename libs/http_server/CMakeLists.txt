@@ -7,6 +7,7 @@ add_library(bzf_http_server STATIC
     src/bzf_http_free_base.c
     src/bzf_http_send_response.c
     src/bzf_http_server_destroy.c
+    src/bzf_http_server_accept_and_handle.c
     src/http_fetch_and_parse_error_to_request_error.c
     src/bzf_http_handle_request.c
     src/parse_http_request_line.c

@@ -1,4 +1,5 @@
 #include "private.h"
+#include "bzf_http_server_impl.h"
 #include <assert.h>
 #include <arpa/inet.h>
 #include <errno.h>
@@ -11,13 +12,20 @@
 
 #define SERVER_PORT 12345
 
-enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_http_server* out)
+enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_http_server** out)
 {
     assert(out != NULL);
+    *out = NULL;
 
-    out->file_descriptor = -1;
-    out->handlers.configured_routes = NULL;
-    out->handlers.default_handler = NULL;
+    *out = bzf_os_malloc(sizeof(struct bzf_http_server));
+    if (*out == NULL)
+    {
+        return BZF_HTTP_SERVER_INITIALIZE_MEMORY_ALLOCATION_ERROR;
+    }
+
+    (*out)->file_descriptor = -1;
+    (*out)->handlers.configured_routes = NULL;
+    (*out)->handlers.default_handler = NULL;
 
     const int server_fd = bzf_socket(AF_INET, SOCK_STREAM, 0);
 
@@ -35,7 +43,7 @@ enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_htt
     server_addr.sin_port = htons(SERVER_PORT);
     server_addr.sin_addr.s_addr = INADDR_ANY;
 
-    out->file_descriptor = server_fd;
+    (*out)->file_descriptor = server_fd;
     if (bzf_bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0)
     {
         fprintf(stderr, "bind failed: %s\n", strerror(errno));
@@ -48,8 +56,8 @@ enum bzf_http_server_initialize_result bzf_http_server_initialize(struct bzf_htt
         return BZF_HTTP_SERVER_INITIALIZE_SOCKET_INITIALISATION_ERROR;
     }
 
-    out->handlers.default_handler = defaultHandler;
-    const enum bzf_hashmap_initialize_result hashmap_initialize_result = bzf_hashmap_initialize(&out->handlers.configured_routes);
+    (*out)->handlers.default_handler = defaultHandler;
+    const enum bzf_hashmap_initialize_result hashmap_initialize_result = bzf_hashmap_initialize(&(*out)->handlers.configured_routes);
     if (hashmap_initialize_result == BZF_HASHMAP_INITIALIZE_ALLOCATION_ERROR)
     {
         return BZF_HTTP_SERVER_INITIALIZE_MEMORY_ALLOCATION_ERROR;

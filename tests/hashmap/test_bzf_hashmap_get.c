@@ -8,7 +8,8 @@
 static void test_hashmap_get_not_found(void **state) {
     (void)state;
     struct bzf_hashmap *map = NULL;
-    bzf_hashmap_initialize(&map);
+    const enum bzf_hashmap_initialize_result initialize_result = bzf_hashmap_initialize(&map);
+    assert_int_equal(initialize_result, BZF_HASHMAP_INITIALIZE_OK);
 
     bzf_byte_t key[] = "missing";
     struct bzf_bytes_immutable_view kv = {key, 7};
@@ -22,7 +23,8 @@ static void test_hashmap_get_not_found(void **state) {
 static void test_hashmap_get_multiple_entries(void **state) {
     (void)state;
     struct bzf_hashmap *map = NULL;
-    bzf_hashmap_initialize(&map);
+    const enum bzf_hashmap_initialize_result initialize_result = bzf_hashmap_initialize(&map);
+    assert_int_equal(initialize_result, BZF_HASHMAP_INITIALIZE_OK);
 
     bzf_byte_t k1[] = "a";
     bzf_byte_t k2[] = "b";

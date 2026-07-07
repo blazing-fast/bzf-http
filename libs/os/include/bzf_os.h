@@ -5,6 +5,7 @@
 #include <sys/types.h>
 
 void* bzf_os_malloc(size_t size);
+void* bzf_os_calloc(size_t nmemb, size_t size);
 void bzf_os_free(void* ptr);
 
 int bzf_socket(int domain, int type, int protocol);

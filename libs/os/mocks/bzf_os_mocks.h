@@ -6,6 +6,7 @@
 #include <sys/types.h>
 
 void mock_bzf_os_malloc_set(void* (*fn)(size_t));
+void mock_bzf_os_calloc_set(void* (*fn)(size_t, size_t));
 void mock_bzf_os_free_set(void (*fn)(void*));
 
 void mock_bzf_socket_set(int (*fn)(int, int, int));

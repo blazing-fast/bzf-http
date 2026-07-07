@@ -20,7 +20,6 @@ int main(void) {
 
     bzf_http_server_accept_and_handle(http_server);
     bzf_http_server_destroy(http_server);
-    http_server = NULL;
     fflush(stdout);
     return 0;
 }

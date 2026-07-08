@@ -9,4 +9,7 @@ void mock_bzf_hashmap_insert_set(
         const struct bzf_bytes_immutable_view,
         void*));
 
+void mock_bzf_hashmap_hash_string_set(
+    uint32_t (*fn)(struct bzf_bytes_immutable_view));
+
 #endif

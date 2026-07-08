@@ -20,6 +20,7 @@ target_link_libraries(bzf_hashmap PUBLIC bzf_bytes bzf_os)
 # symbols at link time without touching any production library or binary.
 add_library(bzf_hashmap_mock OBJECT
     mocks/bzf_hashmap_insert_mock.c
+    mocks/bzf_hashmap_hash_string_mock.c
 )
 
 # Mocks need the same include paths as the real library.

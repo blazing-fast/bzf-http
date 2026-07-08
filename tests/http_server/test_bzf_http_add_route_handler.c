@@ -5,6 +5,7 @@
 #include <cmocka.h>
 #include "bzf_http_server_impl.h"
 #include "bzf_hashmap_mocks.h"
+#include <bzf_os_mocks.h>
 
 static void test_http_add_route_handler_ok(void **state) {
     (void)state;
@@ -60,6 +61,35 @@ static void test_http_add_route_handler_hashmap_fails(void **state) {
     bzf_http_server_destroy(server);
 }
 
+static void* malloc_always_fail(size_t size)
+{
+    (void)size;
+    return NULL;
+}
+
+static void test_http_add_route_handler_malloc_fails(void **state) {
+    (void)state;
+    struct bzf_http_server *server = NULL;
+    assert_int_equal(bzf_http_server_initialize(&server), BZF_HTTP_SERVER_INITIALIZE_OK);
+
+    mock_bzf_os_malloc_set(malloc_always_fail);
+
+    bzf_byte_t route_path[] = "/test";
+    const struct bzf_http_route_handler handler = {
+        .route = {route_path, sizeof(route_path) - 1},
+        .handler = NULL,
+    };
+
+    assert_int_equal(
+        bzf_http_add_route_handler(server, handler),
+        BZF_HTTP_ADD_ROUTE_HANDLER_MEMORY_ALLOCATION_ERROR
+    );
+
+    mock_bzf_os_malloc_set(NULL);
+
+    bzf_http_server_destroy(server);
+}
+
 static void test_http_add_route_handler_and_real_get(void **state) {
     (void)state;
     struct bzf_http_server *server = NULL;
@@ -88,6 +118,7 @@ int main(void) {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_http_add_route_handler_ok),
         cmocka_unit_test(test_http_add_route_handler_hashmap_fails),
+        cmocka_unit_test(test_http_add_route_handler_malloc_fails),
         cmocka_unit_test(test_http_add_route_handler_and_real_get),
     };
 

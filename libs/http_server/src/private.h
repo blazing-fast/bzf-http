@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BZF_HTTP_SERVER_PRIVATE_H
+#define BZF_HTTP_SERVER_PRIVATE_H
 #include "bzf_http_server.h"
 
 void bzf_http_free_base(struct bzf_bytes_immutable_view key, void* data);
@@ -17,3 +18,5 @@ enum bzf_handle_request_result
 };
 enum bzf_handle_request_result bzf_http_handle_request(const struct bzf_http_client client,
                                                         struct bzf_http_handlers handlers);
+
+#endif /* BZF_HTTP_SERVER_PRIVATE_H */

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BZF_HTTP_SERVER_H
+#define BZF_HTTP_SERVER_H
 #include "bzf_bytes.h"
 #include "bzf_dynamic_array.h"
 #include "bzf_hashmap.h"
@@ -61,3 +62,5 @@ enum bzf_http_server_accept_and_handle_result {
     BZF_HTTP_SERVER_ACCEPT_AND_HANDLE_REQUEST_ERROR,
 };
 enum bzf_http_server_accept_and_handle_result bzf_http_server_accept_and_handle(struct bzf_http_server* server);
+
+#endif /* BZF_HTTP_SERVER_H */

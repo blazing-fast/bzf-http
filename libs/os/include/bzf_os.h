@@ -15,5 +15,6 @@ int bzf_accept(int fd, struct sockaddr* addr, socklen_t* addr_len);
 ssize_t bzf_send(int fd, const void *buf, size_t n, int flags);
 int bzf_setsockopt(int fd, int level, int optname, const void* optval, socklen_t optlen);
 int bzf_close(int fd);
+ssize_t bzf_recv(int sockfd, void *buf, size_t len, int flags);
 
 #endif

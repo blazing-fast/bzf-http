@@ -43,10 +43,42 @@ static void test_bytes_split_with_remainder_after_max_token(void** state) {
     assert_int_equal(ranges[1].length, 7);
 }
 
+static void test_bytes_split_no_delimiter(void** state) {
+    (void)state;
+    bzf_byte_t buf[] = "foobar";
+    bzf_byte_t delim[] = ",";
+
+    const struct bzf_bytes_immutable_view v = {buf, 6};
+    const struct bzf_bytes_immutable_view d = {delim, 1};
+
+    struct bzf_bytes_range ranges[3];
+    size_t count = bzf_bytes_split(v, d, ranges, 3);
+
+    assert_int_equal(count, 0);
+}
+
+static void test_bytes_split_max_tokens_one(void** state) {
+    (void)state;
+    bzf_byte_t buf[] = "foo,bar,baz";
+    bzf_byte_t delim[] = ",";
+
+    const struct bzf_bytes_immutable_view v = {buf, 11};
+    const struct bzf_bytes_immutable_view d = {delim, 1};
+
+    struct bzf_bytes_range ranges[1];
+    size_t count = bzf_bytes_split(v, d, ranges, 1);
+
+    assert_int_equal(count, 1);
+    assert_int_equal(ranges[0].offset, 0);
+    assert_int_equal(ranges[0].length, 11);
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_bytes_split),
         cmocka_unit_test(test_bytes_split_with_remainder_after_max_token),
+        cmocka_unit_test(test_bytes_split_no_delimiter),
+        cmocka_unit_test(test_bytes_split_max_tokens_one),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);

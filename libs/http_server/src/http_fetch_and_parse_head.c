@@ -35,7 +35,7 @@ enum http_fetch_and_parse_head_result http_fetch_and_parse_head(const int client
     unsigned char read_buf[READ_BUFFER_SIZE];
 
     while (!headers_done) {
-        ssize_t n = recv(client_fd, read_buf, READ_BUFFER_SIZE, 0);
+        ssize_t n = bzf_recv(client_fd, read_buf, READ_BUFFER_SIZE, 0);
 
         if (n == 0) {
             return HTTP_FETCH_AND_PARSE_HEAD_CONNECTION_CLOSED;

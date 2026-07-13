@@ -23,9 +23,26 @@ static void test_dynamic_array_get_back(void **state) {
     free(arr);
 }
 
+static void test_dynamic_array_get_back_single_element(void **state) {
+    (void)state;
+    struct bzf_dynamic_array *arr = NULL;
+    bzf_dynamic_array_initialize(sizeof(int), 2, &arr);
+
+    int val = 42;
+    bzf_dynamic_array_push_back(arr, &val);
+
+    int back;
+    bzf_dynamic_array_get_back(arr, &back);
+    assert_int_equal(back, 42);
+
+    free(arr->buffer);
+    free(arr);
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
         cmocka_unit_test(test_dynamic_array_get_back),
+        cmocka_unit_test(test_dynamic_array_get_back_single_element),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);

@@ -5,6 +5,14 @@
 #include <cmocka.h>
 #include "bzf_dynamic_array.h"
 #include <bzf_dynamic_array_impl.h>
+#include <bzf_os_mocks.h>
+
+static int per_test_setup(void **state)
+{
+    (void)state;
+    mock_bzf_os_malloc_set(NULL);
+    return 0;
+}
 
 static void test_dynamic_array_push_and_get(void **state) {
     (void)state;
@@ -52,10 +60,33 @@ static void test_dynamic_array_resize_on_push(void **state) {
     free(arr);
 }
 
+static void* malloc_always_fail(size_t size)
+{
+    (void)size;
+    return NULL;
+}
+
+static void test_dynamic_array_push_back_malloc_fails(void **state) {
+    (void)state;
+    struct bzf_dynamic_array *arr = NULL;
+    bzf_dynamic_array_initialize(sizeof(int), 1, &arr);
+
+    int val = 42;
+    assert_int_equal(bzf_dynamic_array_push_back(arr, &val), BZF_DYNAMIC_ARRAY_PUSH_BACK_OK);
+
+    mock_bzf_os_malloc_set(malloc_always_fail);
+    assert_int_equal(bzf_dynamic_array_push_back(arr, &val), BZF_DYNAMIC_ARRAY_PUSH_BACK_MEMORY_ALLOCATION_ERROR);
+    mock_bzf_os_malloc_set(NULL);
+
+    free(arr->buffer);
+    free(arr);
+}
+
 int main(void) {
     const struct CMUnitTest tests[] = {
-        cmocka_unit_test(test_dynamic_array_push_and_get),
-        cmocka_unit_test(test_dynamic_array_resize_on_push),
+        cmocka_unit_test_setup(test_dynamic_array_push_and_get, per_test_setup),
+        cmocka_unit_test_setup(test_dynamic_array_resize_on_push, per_test_setup),
+        cmocka_unit_test_setup(test_dynamic_array_push_back_malloc_fails, per_test_setup),
     };
 
     return cmocka_run_group_tests(tests, NULL, NULL);

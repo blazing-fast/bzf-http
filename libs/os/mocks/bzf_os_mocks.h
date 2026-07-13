@@ -16,5 +16,6 @@ void mock_bzf_accept_set(int (*fn)(int, struct sockaddr*, socklen_t*));
 void mock_bzf_send_set(ssize_t (*fn)(int, const void*, size_t, int));
 void mock_bzf_setsockopt_set(int (*fn)(int, int, int, const void*, socklen_t));
 void mock_bzf_close_set(int (*fn)(int));
+void mock_bzf_recv_set(ssize_t (*fn)(int, void*, size_t, int));
 
 #endif

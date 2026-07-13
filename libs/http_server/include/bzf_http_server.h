@@ -63,4 +63,6 @@ enum bzf_http_server_accept_and_handle_result {
 };
 enum bzf_http_server_accept_and_handle_result bzf_http_server_accept_and_handle(struct bzf_http_server* server);
 
+void bzf_http_server_run(struct bzf_http_server* server);
+
 #endif /* BZF_HTTP_SERVER_H */

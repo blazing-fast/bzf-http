@@ -13,12 +13,12 @@ int main(void) {
         return 42;
     }
 
-    struct bzf_http_route_handler coucou_handler = {{(const bzf_byte_t*)"/coucou", 7}, coucouEndpoint};
+    const struct bzf_http_route_handler coucou_handler = {{(const bzf_byte_t*)"/coucou", 7}, coucouEndpoint};
     bzf_http_add_route_handler(http_server, coucou_handler);
-    struct bzf_http_route_handler root_handler = {{(const bzf_byte_t*)"/", 1}, rootEndpoint};
+    const struct bzf_http_route_handler root_handler = {{(const bzf_byte_t*)"/", 1}, rootEndpoint};
     bzf_http_add_route_handler(http_server, root_handler);
 
-    bzf_http_server_accept_and_handle(http_server);
+    bzf_http_server_run(http_server);
     bzf_http_server_destroy(http_server);
     fflush(stdout);
     return 0;

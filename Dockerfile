@@ -15,7 +15,8 @@ RUN apt-get update && apt-get install -y \
 # Optional: install libraries for HTTP / async
 RUN apt-get update && apt-get install -y \
     libpthread-stubs0-dev \
-    libcmocka-dev
+    libcmocka-dev \
+    libpcre2-dev
 
 # Set working directory
 WORKDIR /project

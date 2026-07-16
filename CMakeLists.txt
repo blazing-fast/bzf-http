@@ -52,6 +52,18 @@ if(BUILD_TESTS)
     endif()
 endif()
 
+# --- Dependencies ---
+# Find PCRE2 and expose it as an imported target for subdirectories.
+list(APPEND CMAKE_PREFIX_PATH /opt/homebrew /usr/local)
+find_library(PCRE2_LIBRARIES NAMES pcre2-8 REQUIRED)
+find_path(PCRE2_INCLUDE_DIRS NAMES pcre2.h REQUIRED)
+
+add_library(PCRE2::PCRE2 UNKNOWN IMPORTED)
+set_target_properties(PCRE2::PCRE2 PROPERTIES
+    IMPORTED_LOCATION "${PCRE2_LIBRARIES}"
+    INTERFACE_INCLUDE_DIRECTORIES "${PCRE2_INCLUDE_DIRS}"
+)
+
 # --- Add subdirectories ---
 # libs/os must come first — it defines bzf_os and bzf_os_mock targets.
 add_subdirectory(libs/os)
